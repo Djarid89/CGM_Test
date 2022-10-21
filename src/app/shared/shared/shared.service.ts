@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Octokit } from 'octokit';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
+  octokit = new Octokit({ auth: environment.token });
   navCommitisVisible$ = new BehaviorSubject<boolean>(false);
-
-  octokit = new Octokit({
-    auth: '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'
-  });
 }

@@ -41,7 +41,9 @@ $columnWidth: 320px;
 
     th:first-child,
     td:first-child {
-      width: 35px;
+      width: 50px;
+      min-width: 50px;
+      max-width: 50px;
     }
 
     td:first-child {
@@ -56,21 +58,31 @@ $columnWidth: 320px;
       border: 1px solid black;
       text-align: center; 
       vertical-align: middle;
+      padding: 6px;
+      white-space: nowrap; 
+      overflow: hidden;
+      text-overflow: ellipsis; 
     }
 
     th:nth-child(2),
     td:nth-child(2) {
       width: 300px;
+      min-width: 300px;
+      max-width: 300px;
     }
     
     th:nth-child(3),
     td:nth-child(3) {
       width: 60px;
+      min-width: 60px;
+      max-width: 60px;
     }
 
     th:nth-child(4),
     td:nth-child(4) {
       width: 100px;
+      min-width: 100px;
+      max-width: 100px;
     }
   }
 }
