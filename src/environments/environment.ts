@@ -6,7 +6,7 @@ import { Octokit } from "octokit";
 
 export const environment = {
   production: false,
-  octokit: new Octokit({ auth: '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' })
+  baseUrl: 'https://api.github.com/search/'
 };
 
 /*

@@ -1,12 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ReposService {
 
-  constructor() { }
+  constructor(private readonly http: HttpClient) { }
 
-  async getRepos(name: string, language: string, minStars: number, issuestTitle: string): Promise<any> {
+  getRepos(name: string, language: string, minStars: number, issuestTitle: string): Observable<any> {
     let params = `q=${name}`;
     if(language) {
       params += `+language:${language}`;
@@ -17,6 +19,6 @@ export class ReposService {
     if(issuestTitle) {
       params = `issues?${params}`;
     }
-    return await environment.octokit.request('GET /search/repositories', { q: params, });
+    return this.http.get(`${environment.baseUrl}repositories?${params}`);
   }
 }

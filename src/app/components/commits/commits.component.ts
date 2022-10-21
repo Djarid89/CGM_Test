@@ -24,10 +24,13 @@ export class CommitsComponent implements OnInit {
   ngOnInit(): void {
     this.sharedService.navCommitisVisible$.next(true);
     this.activatedRoute.queryParams.pipe(first()).subscribe(params => {
-      const result = this.commitService.getCommits(params['repoName'])
-      result.then(commits => this.commits = commits?.data?.items?.map((item: any) => new Commit(item.commit.author.name, item.commit.url, item.commit.message)) || []);
-      result.catch(() => console.log('TODO ERROR'));
-      result.finally(() => this.spinnerService.hide());
+      this.commitService.getCommits(params['repoName']).subscribe({
+        next: (commits: any) => {
+          this.commits = commits?.items?.map((item: any) => new Commit(item.commit.author.name, item.commit.url, item.commit.message)) || []
+        },
+        error: () => console.log('TODO ERROR'),
+        complete: () => this.spinnerService.hide()
+      })
     });
   }
 

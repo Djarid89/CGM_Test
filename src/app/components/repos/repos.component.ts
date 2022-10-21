@@ -31,10 +31,15 @@ export class ReposComponent {
     const controls = this.searchForm.controls;
     this.spinnerService.show();
     this.repos = undefined;
-    const result = this.repoService.getRepos(controls.name.value || '', controls.language.value || '', controls.minStars.value || 0, controls.issuetitle.value || '');
-    result.then(repos => this.repos = repos?.data?.items?.map((item: any) => new Repo(item.name, item.owner.avatar_url, new Date(item.created_at))) || []);
-    result.catch(() => console.log('TODO ERROR'));
-    result.finally(() => this.spinnerService.hide());
+    this.repoService.getRepos(controls.name.value || '', controls.language.value || '', controls.minStars.value || 0, controls.issuetitle.value || '').subscribe({
+      next: (repos: any) => {
+        this.repos = repos?.items?.map((item: any) => new Repo(item.name, item.owner.avatar_url, new Date(item.created_at))) || [];
+      },
+      error: () => {
+        console.log('TODO ERROR')
+      },
+      complete: () => this.spinnerService.hide()
+    });
   }
 
   goToCommits(repoName: string): void {
