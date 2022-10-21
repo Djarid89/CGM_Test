@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SharedService } from '../../../shared/shared/shared.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ReposService {
 
-  constructor(private readonly shared: SharedService) { }
+  constructor() { }
 
   async getRepos(name: string, language: string, minStars: number, issuestTitle: string): Promise<any> {
     let params = `q=${name}`;
@@ -17,6 +17,6 @@ export class ReposService {
     if(issuestTitle) {
       params = `issues?${params}`;
     }
-    return await this.shared.octokit.request('GET /search/repositories', { q: params, });
+    return await environment.octokit.request('GET /search/repositories', { q: params, });
   }
 }

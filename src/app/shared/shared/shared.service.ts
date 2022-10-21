@@ -7,6 +7,5 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class SharedService {
-  octokit = new Octokit({ auth: environment.token });
   navCommitisVisible$ = new BehaviorSubject<boolean>(false);
 }

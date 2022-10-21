@@ -2,9 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { Octokit } from "octokit";
+
 export const environment = {
   production: false,
-  token: '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'
+  octokit: new Octokit({ auth: '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' })
 };
 
 /*
