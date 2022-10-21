@@ -1,0 +1,42 @@
+.o-commits {
+  .m-commits-button {
+    margin-bottom: 12px;
+    padding: 6px;
+    width: 110px;
+  }
+
+  .m-commits-table {
+    border-collapse: collapse;
+
+    tr {
+      height: 50px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      text-align: center; 
+      vertical-align: middle;
+    }
+
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 300px;
+    }
+    
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 200px;
+    }
+
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 600px;
+      height: 50px;
+    }
+
+    .a-commits-messagge {
+      overflow-y: scroll;
+      height: 100%;
+    }
+  }
+}

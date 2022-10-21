@@ -1,0 +1,76 @@
+$columnWidth: 320px;
+
+.o-repos {
+  .m-repos-optionalParams {
+    margin-bottom: 12px;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: $columnWidth;
+    margin-bottom: 20px;
+
+    label {
+      width: 110px;
+      display: inline-block;
+    }
+
+    &.doubleColumn {
+      grid-template-columns: repeat(2, $columnWidth);
+    }
+
+    .a-repos-formRow {
+      margin-bottom: 12px;
+    }
+
+    button {
+      padding: 6px;
+      width: 110px;
+    }
+  }
+
+  .m-repos-table {
+    border-collapse: collapse;
+
+    th:first-child,
+    td:first-child {
+      width: 35px;
+    }
+
+    td:first-child {
+      cursor: pointer;
+    }
+
+    tr {
+      height: 50px;
+    }
+
+    th, td {
+      border: 1px solid black;
+      text-align: center; 
+      vertical-align: middle;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2) {
+      width: 300px;
+    }
+    
+    th:nth-child(3),
+    td:nth-child(3) {
+      width: 60px;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 100px;
+    }
+  }
+}

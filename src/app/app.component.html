@@ -1,6 +1,13 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
 <div class="topnav">
-  <a [ngClass]="{ 'active': currentRoute === Routes.main || currentRoute === '/' }" routerLink="main">Go to main</a>
-  <a [ngClass]="{ 'active': currentRoute === Routes.repos }" routerLink="repos">Go to repos</a>
+  <div (click)="sharedService.navCommitisVisible$.next(false)">
+    <a [ngClass]="{ 'active': currentRoute === RoutesPath.main || currentRoute === '/' }" routerLink="main">Go to main</a>
+    <a [ngClass]="{ 'active': currentRoute === RoutesPath.repos }" routerLink="repos">Go to repos</a>
+  </div>
+  <a *ngIf="isVisible" [ngClass]="{ 'active': currentRoute === RoutesPath.commits }" routerLink="repos">Go to commits</a>
 </div>
 
-<router-outlet></router-outlet>
+<div class="main">
+  <router-outlet></router-outlet>
+</div>

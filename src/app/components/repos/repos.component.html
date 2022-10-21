@@ -1,1 +1,43 @@
-<p>repos works!</p>
+<div class="o-repos">
+  <div class="m-repos-optionalParams">
+    <label for="optionalParams">Optional params: </label>
+    <input id="optionalParams" type="checkbox" [(ngModel)]="optionalParams" (ngModelChange)="unsetOptionals()">
+  </div>
+  <form [formGroup]="searchForm" [ngClass]="{ 'doubleColumn': optionalParams}">
+    <div class="a-repos-formRow">
+      <label for="name">Name: </label>
+      <input id="name" type="text" formControlName="name">
+    </div>
+    <div *ngIf="optionalParams" class="a-repos-formRow">
+      <label for="language">Language: </label>
+      <input id="language" type="text" formControlName="language">
+    </div>
+    <div class="a-repos-formRow">
+      <label for="issuetitle">Issue title: </label>
+      <input id="issuetitle" type="text" formControlName="issuetitle">
+    </div>
+    <div *ngIf="optionalParams" class="a-repos-formRow">
+      <label for="minStars">Minimum stars: </label>
+      <input id="minStars" type="number" formControlName="minStars">
+    </div>
+    <button type="submit" (click)="getRepos()">Search repos</button>
+  </form>
+
+  <ng-container *ngIf="repos !== undefined">
+    <h2 *ngIf="!repos.length">No results with there params</h2>
+    <table *ngIf="repos.length"  class="m-repos-table">
+      <tr>
+        <th></th>
+        <th>Repo name</th>
+        <th>Avatar</th>
+        <th>Creation date</th>
+      </tr>
+      <tr *ngFor="let repo of repos">
+        <td (click)="goToCommits(repo.name)"><img [src]="'../../../assets/up-arrow.png'" [alt]="'missing'"></td>
+        <td>{{repo.name}}</td>
+        <td><img [src]="repo.avatar" [alt]="'missing'"></td>
+        <td>{{repo.creationDate | date: 'dd/MM/yyyy'}}</td>
+      </tr>
+    </table>
+  </ng-container>
+</div>
