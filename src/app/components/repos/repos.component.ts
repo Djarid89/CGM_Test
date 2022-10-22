@@ -58,12 +58,13 @@ export class ReposComponent implements OnInit, OnDestroy {
   
   addRepos(): void {
     this.page++;
-    this.getRepos();
+    this._getRepos();
   }
 
   getRepos(): void {
     this.page = 1;
     this.repos = [];
+    this.tableIsVisible = false;
     this._getRepos();
   }
 
