@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { forkJoin } from 'rxjs';
 import { Repo } from './class/repos';
+import { RepoData } from './interface/repos';
 import { ReposService } from './services/repos.service';
 
 @Component({
@@ -13,10 +15,10 @@ import { ReposService } from './services/repos.service';
 export class ReposComponent {
   optionalParams = false;
   searchForm = new FormGroup({
-    name: new FormControl<string>(''),
+    repoName: new FormControl<string>(''),
     language: new FormControl<string>(''),
     minStars: new FormControl<number>(0),
-    issuetitle: new FormControl<string>(''),
+    issueName: new FormControl<string>(''),
   });
   repos?: Repo[] = undefined;
 
@@ -27,17 +29,30 @@ export class ReposComponent {
     this.searchForm.controls.minStars.setValue(0);
   }
 
+  getDisabledButton(): boolean {
+    return !this.searchForm.controls.repoName.value;
+  }
+  
   getRepos(): void {
     const controls = this.searchForm.controls;
+    if(!controls.repoName.value) {
+      // TODO ERROR
+      return;
+    }
+
     this.spinnerService.show();
     this.repos = undefined;
-    this.repoService.getRepos(controls.name.value || '', controls.language.value || '', controls.minStars.value || 0, controls.issuetitle.value || '').subscribe({
-      next: (repos: any) => {
-        this.repos = repos?.items?.map((item: any) => new Repo(item.name, item.owner.avatar_url, new Date(item.created_at))) || [];
+    const params: RepoData = {
+      reportName: controls.repoName.value || '',
+      language: controls.language.value || '',
+      minStars: controls.minStars.value || 0,
+      issueName: controls.issueName.value || ''
+    };
+    this.repoService.getRepos(params).subscribe({
+      next: ([repos, issuesRepoUrl]: [Repo[], string[]]) => {
+        this.repos = repos.filter((repo: Repo) => !issuesRepoUrl || !issuesRepoUrl.length || issuesRepoUrl.some((issueRepoUrl: string) => issueRepoUrl === repo.url));
       },
-      error: () => {
-        console.log('TODO ERROR')
-      },
+      error: () => console.log('TODO ERROR'),
       complete: () => this.spinnerService.hide()
     });
   }

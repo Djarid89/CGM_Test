@@ -5,22 +5,22 @@
   </div>
   <form [formGroup]="searchForm" [ngClass]="{ 'doubleColumn': optionalParams}">
     <div class="a-repos-formRow">
-      <label for="name">Name: </label>
-      <input id="name" type="text" formControlName="name">
+      <label for="repoName">Name: </label>
+      <input id="repoName" type="text" formControlName="repoName">
     </div>
     <div *ngIf="optionalParams" class="a-repos-formRow">
       <label for="language">Language: </label>
       <input id="language" type="text" formControlName="language">
     </div>
     <div class="a-repos-formRow">
-      <label for="issuetitle">Issue title: </label>
-      <input id="issuetitle" type="text" formControlName="issuetitle">
+      <label for="issueName">Issue title: </label>
+      <input id="issueName" type="text" formControlName="issueName">
     </div>
     <div *ngIf="optionalParams" class="a-repos-formRow">
       <label for="minStars">Minimum stars: </label>
       <input id="minStars" type="number" formControlName="minStars">
     </div>
-    <button type="submit" (click)="getRepos()">Search repos</button>
+    <button [disabled]="getDisabledButton()" type="submit" (click)="getRepos()">Search repos</button>
   </form>
 
   <ng-container *ngIf="repos !== undefined">
@@ -33,9 +33,9 @@
         <th>Creation date</th>
       </tr>
       <tr *ngFor="let repo of repos">
-        <td (click)="goToCommits(repo.name)"><img [src]="'../../../assets/up-arrow.png'" [alt]="'missing'"></td>
+        <td (click)="goToCommits(repo.name)"><img [src]="'../../../assets/up-arrow.png'" [alt]="'default'"></td>
         <td>{{repo.name}}</td>
-        <td><img [src]="repo.avatar" [alt]="'missing'"></td>
+        <td><img [src]="repo.avatar" [alt]="'default'"></td>
         <td>{{repo.creationDate | date: 'dd/MM/yyyy'}}</td>
       </tr>
     </table>
