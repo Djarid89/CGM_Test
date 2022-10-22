@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs';
@@ -10,7 +10,8 @@ import { CommitsService } from './services/commits.service';
 @Component({
   selector: 'app-commits',
   templateUrl: './commits.component.html',
-  styleUrls: ['./commits.component.scss']
+  styleUrls: ['./commits.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommitsComponent implements OnInit {
   commits?: Commit[];

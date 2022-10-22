@@ -37,6 +37,7 @@ $columnWidth: 320px;
   }
 
   .m-repos-table {
+    margin-bottom: 12px;
     border-collapse: collapse;
 
     th:first-child,
@@ -83,6 +84,15 @@ $columnWidth: 320px;
       width: 100px;
       min-width: 100px;
       max-width: 100px;
+    }
+
+    .m-repos-otherButton {
+      border: none;
+  
+      button {
+        padding: 6px;
+        width: 110px;
+      }
     }
   }
 }
