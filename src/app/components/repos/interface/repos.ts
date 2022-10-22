@@ -3,4 +3,5 @@ export interface RepoData {
   language: string;
   minStars: number;
   issueName: string;
+  optionalData?: boolean;
 }
