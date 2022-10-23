@@ -1,3 +1,8 @@
+@mixin header-style {
+  background-color: #333;
+  color: white
+}
+
 .o-table {
   .m-table {
     margin-bottom: 12px;

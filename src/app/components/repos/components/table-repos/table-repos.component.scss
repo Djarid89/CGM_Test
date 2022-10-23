@@ -1,8 +1,14 @@
+@import '../../../../shared/components/table/table.component.scss';
+
 img {
   width: 50px;
   height: 50px;
   display: block;
   margin: 0 auto;
+}
+
+th {
+  @include header-style;
 }
 
 th:first-child,
@@ -27,7 +33,7 @@ th, td {
   padding: 6px;
   white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
 
 th:nth-child(2),

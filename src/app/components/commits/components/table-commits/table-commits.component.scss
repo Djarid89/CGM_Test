@@ -1,5 +1,11 @@
+@import '../../../../shared/components/table/table.component.scss';
+
 tr {
   height: 50px;
+}
+
+th {
+  @include header-style;
 }
 
 th, td {
