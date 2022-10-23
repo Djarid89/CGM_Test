@@ -3,7 +3,7 @@
     <label for="optionalParams">Optional params: </label>
     <input id="optionalParams" type="checkbox" [(ngModel)]="optionalParams" (ngModelChange)="unsetOptionals()">
   </div>
-  <form [formGroup]="searchForm" [ngClass]="{ 'doubleColumn': optionalParams}">
+  <form [formGroup]="form" [ngClass]="{ 'doubleColumn': optionalParams}">
     <div class="a-repos-formRow">
       <label for="repoName">Name: </label>
       <input id="repoName" type="text" formControlName="repoName">
@@ -23,30 +23,7 @@
     <button [disabled]="getDisabledButton()" type="submit" (click)="getRepos()">Search repos</button>
   </form>
 
-  <ng-container *ngIf="tableIsVisible">
-    <h2 *ngIf="!repos.length">No results with there params</h2>
-    <ng-container *ngIf="repos.length">
-      <div>Result {{repos.length}} of {{totalReports}}</div>
-      <table class="m-repos-table">
-        <tr>
-          <th></th>
-          <th>Repo name</th>
-          <th>Avatar</th>
-          <th>Creation date</th>
-        </tr>
-        <tr *ngFor="let repo of repos">
-          <td (click)="goToCommits(repo.name)"><img [src]="'../../../assets/up-arrow.png'" [alt]="'default'"></td>
-          <td>{{repo.name}}</td>
-          <td><img [src]="repo.avatar" [alt]="'default'"></td>
-          <td>{{repo.creationDate | date: 'dd/MM/yyyy'}}</td>
-        </tr>
-        <tr>
-          <td class="m-repos-otherButton" colspan="4">
-            <button *ngIf="repos.length < totalReports" type="submit" (click)="addRepos()">Add repos</button>
-          </td>
-        </tr>
-      </table>
-      
-    </ng-container>
-  </ng-container>
+  <app-table (emitAddRows)="addRepos()">
+    <app-table-repos [repos]="repos"></app-table-repos>
+  </app-table>
 </div>

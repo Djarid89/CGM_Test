@@ -1,8 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Injector, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { SharedService } from './shared/shared/shared.service';
+import { ManualInjectorService } from './shared/services/manual-injector.service';
+import { StoreService } from './shared/services/store.service';
 
 enum RoutesPath {
   main = '/main',
@@ -21,9 +22,10 @@ export class AppComponent implements OnDestroy {
   isVisible = false;
   navCommitisVisible: Subscription;
 
-  constructor(private readonly router: Router, readonly sharedService: SharedService) {
+  constructor(private readonly router: Router, readonly storeService: StoreService, private injector: Injector) {
+    ManualInjectorService.injector = this.injector;
     this.router.events.pipe(filter((event:any) => event instanceof NavigationEnd)).subscribe((event: any) => this.currentRoute = event.url.split('?')[0]);
-    this.navCommitisVisible = this.sharedService.navCommitisVisible$.subscribe({
+    this.navCommitisVisible = this.storeService.navCommitisVisible$.subscribe({
       next: (isVisible: boolean) => setTimeout(() => { this.isVisible = isVisible})
     })
   }

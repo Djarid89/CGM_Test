@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './components/main/main.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { SharedModule } from './shared/shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

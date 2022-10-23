@@ -1,7 +1,7 @@
 <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 
 <div class="topnav">
-  <div (click)="sharedService.navCommitisVisible$.next(false)">
+  <div (click)="storeService.navCommitisVisible$.next(false)">
     <a [ngClass]="{ 'active': currentRoute === RoutesPath.main || currentRoute === '/' }" routerLink="main">Go to main</a>
     <a [ngClass]="{ 'active': currentRoute === RoutesPath.repos }" routerLink="repos">Go to repos</a>
   </div>

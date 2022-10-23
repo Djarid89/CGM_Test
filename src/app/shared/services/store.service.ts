@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Repo } from 'src/app/components/repos/class/repos';
 import { RepoData } from 'src/app/components/repos/interface/repos';
-import { StoreData } from './interface/shared';
+import { StoreData } from '../interface/shared';
 
 export enum StoreKey {
   repos = 'repos',
@@ -14,8 +14,9 @@ export type StoreValue = Repo[] | RepoData;
 @Injectable({
   providedIn: 'root'
 })
-export class SharedService {
+export class StoreService {
   private store = new Map<StoreKey, StoreValue>();
+  private cleanable = true;
   navCommitisVisible$ = new BehaviorSubject<boolean>(false);
 
   setStore(storeData: StoreData[]): void {
@@ -30,6 +31,14 @@ export class SharedService {
 
   getStore<T extends StoreValue>(key: StoreKey): T {
     return this.store.get(key) as T;
+  }
+
+  setUncleanable(): void {
+    this.cleanable = false;
+  }
+
+  getCleanable(): boolean {
+    return this.cleanable;
   }
 
   cleanStore(): void {

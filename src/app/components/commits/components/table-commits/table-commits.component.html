@@ -1,0 +1,10 @@
+<tr>
+  <th>Commit author</th>
+  <th>Url</th>
+  <th>Commit message</th>
+</tr>
+<tr *ngFor="let commit of commits">
+  <td>{{commit.author}}</td>
+  <td>{{commit.url}}</td>
+  <td>{{commit.message}}</td>
+</tr>

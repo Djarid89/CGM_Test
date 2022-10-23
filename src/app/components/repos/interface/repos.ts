@@ -1,3 +1,4 @@
+import { GetData } from "src/app/shared/interface/shared";
 import { Repo } from "../class/repos";
 
 export interface RepoData {
@@ -10,15 +11,29 @@ export interface RepoData {
   page: number;
 }
 
-export interface GetReposData {
+export class GetReposData extends GetData {
   reportName: string;
   language: string;
   minStars: number;
   issueName: string;
-  page: number;
+
+  constructor() {
+    super();
+    this.reportName = '';
+    this.language = '';
+    this.minStars = 0;
+    this.issueName = '';
+  }
+
+  setData(reportName: string, language: string, minStars: number, issueName: string): void {
+    this.reportName = reportName;
+    this.language = language;
+    this.minStars = minStars;
+    this.issueName = issueName;
+  }
 }
 
-export interface RepoResult {
+export interface GetRepoResult {
   repos: Repo[];
   totalRepos: number;
 }

@@ -1,19 +1,6 @@
 <div class="o-commits">
   <button class="m-commits-button" type="submit" (click)="goBack()">Back to reps</button>
-
-  <ng-container *ngIf="commits !== undefined">
-    <h2 *ngIf="!commits.length">No results with there params</h2>
-    <table *ngIf="commits.length" class="m-commits-table">
-      <tr>
-        <th>Commit author</th>
-        <th>Url</th>
-        <th>Commit message</th>
-      </tr>
-      <tr *ngFor="let commit of commits">
-        <td>{{commit.author}}</td>
-        <td>{{commit.url}}</td>
-        <td>{{commit.message}}</td>
-      </tr>
-    </table>
-  </ng-container>
+  <app-table (emitAddRows)="addCommits()">
+    <app-table-commits [commits]="commits"></app-table-commits>
+  </app-table>
 </div>
