@@ -18,7 +18,7 @@
     </div>
     <div *ngIf="optionalParams" class="a-repos-formRow">
       <label for="minStars">Minimum stars: </label>
-      <input id="minStars" type="number" formControlName="minStars">
+      <input id="minStars" type="number" formControlName="minStars" [min]="0">
     </div>
     <button [disabled]="getDisabledButton()" type="submit" (click)="getRepos()">Search repos</button>
   </form>

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, EMPTY, forkJoin, from, map, Observable, of, switchMap, takeWhile, timer } from 'rxjs';
+import { delay, forkJoin, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Repo } from '../class/repos';
 import { GetReposData, GetRepoResult } from '../interface/repos';
@@ -15,13 +15,14 @@ export class ReposService {
   }
 
   private _getRepos(repoData: GetReposData): Observable<GetRepoResult> {
-    let params = `q=name:${repoData.reportName}&per_page=15&page=${repoData.page}`;
+    let params = `q=name:${repoData.reportName}`;
     if(repoData.language) {
       params += `+language:${repoData.language}`;
     }
     if(repoData.minStars) {
       params += `+stars:>${repoData.minStars}`;
     }
+    params += `&per_page=15&page=${repoData.page}`;
     return this.http.get(`${environment.baseUrl}repositories?${params}`).pipe<GetRepoResult>(
       map<any, GetRepoResult>((result: any) => {
         return {
