@@ -7,5 +7,4 @@ export class TableService {
   dataLength$ = new BehaviorSubject<number>(0);
   totalData$ = new BehaviorSubject<number>(0);
   goToCommits$ = new Subject<string>();
-  addRepos$ = new Subject<void>();
 }

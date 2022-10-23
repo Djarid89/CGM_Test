@@ -10,8 +10,14 @@ export class ReposService {
 
   constructor(private readonly http: HttpClient) { }
 
+  /**
+    * Get all repos and totalRepos.
+    * If issesName property is present return also a list of string (repository_url)
+    * property from the call getIssues that return all issues that have issesName in title property.
+    * This repository_url is meaning for filtering report that contain this string into his url property.
+  */
   getRepos(repoData: GetReposData): Observable<[GetRepoResult, string[]]> {
-    return forkJoin([this._getRepos(repoData), this._getIssues(repoData.issueName)]);
+    return forkJoin([this._getRepos(repoData), this.getIssues(repoData.issueName)]);
   }
 
   private _getRepos(repoData: GetReposData): Observable<GetRepoResult> {
@@ -33,7 +39,7 @@ export class ReposService {
     )
   }
 
-  private _getIssues(issueName: string): Observable<string[]> {
+  private getIssues(issueName: string): Observable<string[]> {
     if(!issueName) {
       return of([]).pipe(delay(0));
     }

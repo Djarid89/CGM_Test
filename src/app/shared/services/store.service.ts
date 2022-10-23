@@ -14,6 +14,9 @@ export type StoreValue = Repo[] | RepoData;
 @Injectable({
   providedIn: 'root'
 })
+/**
+  * Class for Store data in app.
+*/
 export class StoreService {
   private store = new Map<StoreKey, StoreValue>();
   private cleanable = true;

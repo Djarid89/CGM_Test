@@ -15,9 +15,4 @@ export class TableReposComponent {
   goToCommits(repoName: string): void {
     this.tableService.goToCommits$.next(repoName);
   }
-
-  addRepos(): void {
-    this.tableService.addRepos$.next();
-  }
-
 }

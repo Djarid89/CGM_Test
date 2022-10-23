@@ -8,6 +8,9 @@ import { TableService } from '../../services/table.service';
   styleUrls: ['./base-table.component.scss'],
 
 })
+/**
+   * Base class for every Table like component 
+*/
 export abstract class BaseTableComponent {
   abstract data: GetData;
 

@@ -9,6 +9,9 @@ import { GetCommitData, GetCommitResult } from '../interface/commits';
 export class CommitsService {
   constructor(private readonly http: HttpClient) { }
 
+  /**
+    * Get all commits and the number of totalCommits
+  */
   getCommits(commitData: GetCommitData): Observable<GetCommitResult> {
     const params = `q=${commitData.repoName}&per_page=15&page=${commitData.page}`;
     return this.http.get(`${environment.baseUrl}commits?${params}`).pipe(
