@@ -1,0 +1,14 @@
+<div class="o-table" *ngIf="tableService.IsVisible$ | async">
+  <h2 *ngIf="!(tableService.dataLength$ | async)">No results with there params</h2>
+  <ng-container *ngIf="(tableService.dataLength$ | async)">
+    <div>Result {{tableService.dataLength$ | async}} of {{tableService.totalData$ | async}}</div>
+    <table class="m-table">
+      <ng-content></ng-content>
+      <tr>
+        <td class="otherButton" colspan="0">
+          <button *ngIf="((tableService.dataLength$ | async) || 0) < ((tableService.totalData$ | async) || 0)" type="submit" (click)="addRepos()">Add data</button>
+        </td>
+      </tr>
+    </table>
+  </ng-container>
+</div>

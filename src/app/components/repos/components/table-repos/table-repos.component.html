@@ -1,0 +1,12 @@
+<tr>
+  <th></th>
+  <th>Repo name</th>
+  <th>Avatar</th>
+  <th>Creation date</th>
+</tr>
+<tr *ngFor="let repo of repos">
+  <td (click)="goToCommits(repo.name)"><img [src]="'../../../assets/up-arrow.png'" [alt]="'default'"></td>
+  <td>{{repo.name}}</td>
+  <td><img [src]="repo.avatar" [alt]="'default'"></td>
+  <td>{{repo.creationDate | date: 'dd/MM/yyyy'}}</td>
+</tr>

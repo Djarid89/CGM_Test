@@ -1,0 +1,29 @@
+<div class="o-repos">
+  <div class="m-repos-optionalParams">
+    <label for="optionalParams">Optional params: </label>
+    <input id="optionalParams" type="checkbox" [(ngModel)]="optionalParams" (ngModelChange)="unsetOptionals()">
+  </div>
+  <form [formGroup]="form" [ngClass]="{ 'doubleColumn': optionalParams}">
+    <div class="a-repos-formRow">
+      <label for="repoName">Name: </label>
+      <input id="repoName" type="text" formControlName="repoName">
+    </div>
+    <div *ngIf="optionalParams" class="a-repos-formRow">
+      <label for="language">Language: </label>
+      <input id="language" type="text" formControlName="language">
+    </div>
+    <div class="a-repos-formRow">
+      <label for="issueName">Issue title: </label>
+      <input id="issueName" type="text" formControlName="issueName">
+    </div>
+    <div *ngIf="optionalParams" class="a-repos-formRow">
+      <label for="minStars">Minimum stars: </label>
+      <input id="minStars" type="number" formControlName="minStars" [min]="0">
+    </div>
+    <button [disabled]="getDisabledButton()" type="submit" (click)="getRepos()">Search repos</button>
+  </form>
+
+  <app-table (emitAddRows)="addRepos()">
+    <app-table-repos [repos]="repos"></app-table-repos>
+  </app-table>
+</div>

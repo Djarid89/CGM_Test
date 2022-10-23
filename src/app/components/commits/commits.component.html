@@ -1,0 +1,6 @@
+<div class="o-commits">
+  <button class="m-commits-button" type="submit" (click)="goBack()">Back to reps</button>
+  <app-table (emitAddRows)="addCommits()">
+    <app-table-commits [commits]="commits"></app-table-commits>
+  </app-table>
+</div>

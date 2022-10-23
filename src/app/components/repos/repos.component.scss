@@ -1,0 +1,31 @@
+$columnWidth: 320px;
+
+.o-repos {
+  .m-repos-optionalParams {
+    margin-bottom: 12px;
+  }
+
+  form {
+    display: grid;
+    grid-template-columns: $columnWidth;
+    margin-bottom: 20px;
+
+    label {
+      width: 110px;
+      display: inline-block;
+    }
+
+    &.doubleColumn {
+      grid-template-columns: repeat(2, $columnWidth);
+    }
+
+    .a-repos-formRow {
+      margin-bottom: 12px;
+    }
+
+    button {
+      padding: 6px;
+      width: 110px;
+    }
+  }
+}
