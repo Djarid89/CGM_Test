@@ -17,15 +17,8 @@ export class GetReposData extends GetData {
   minStars: number;
   issueName: string;
 
-  constructor() {
-    super();
-    this.reportName = '';
-    this.language = '';
-    this.minStars = 0;
-    this.issueName = '';
-  }
-
-  setData(reportName: string, language: string, minStars: number, issueName: string): void {
+  constructor(reportName: string, language: string, minStars: number, issueName: string, repoPage?: number) {
+    super(repoPage);
     this.reportName = reportName;
     this.language = language;
     this.minStars = minStars;

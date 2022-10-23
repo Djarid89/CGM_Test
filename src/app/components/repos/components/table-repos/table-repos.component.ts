@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TableService } from 'src/app/shared/services/table.service';
 import { Repo } from '../../class/repos';
 
 @Component({
   selector: 'app-table-repos',
   templateUrl: './table-repos.component.html',
-  styleUrls: ['./table-repos.component.scss']
+  styleUrls: ['./table-repos.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableReposComponent {
   @Input() repos: Repo[] = [];

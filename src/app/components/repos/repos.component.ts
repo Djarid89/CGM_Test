@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 import { BaseTableComponent } from 'src/app/shared/components/base-table/base-table.component';
 import { StoreService, StoreKey } from 'src/app/shared/services/store.service';
 import { TableService } from 'src/app/shared/services/table.service';
@@ -12,13 +13,15 @@ import { ReposService } from './services/repos.service';
 @Component({
   selector: 'app-repos',
   templateUrl: './repos.component.html',
-  styleUrls: ['./repos.component.scss']
+  styleUrls: ['./repos.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReposComponent extends BaseTableComponent implements OnInit, OnDestroy {
   repos: Repo[] = [];
   form = new FormGroup({ repoName: new FormControl<string>(''), language: new FormControl<string>(''), minStars: new FormControl<number>(0), issueName: new FormControl<string>('') });
   optionalParams = false;
-  data = new GetReposData();
+  data!: GetReposData;
+  goToCommitsSubs: Subscription;
 
   constructor(private readonly repoService: ReposService,
               private readonly spinnerService: NgxSpinnerService,
@@ -26,7 +29,7 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
               private readonly storeService: StoreService,
               private readonly tableService: TableService) {
     super();
-    this.tableService.goToCommits$.subscribe({ next: (repoName: string) => this.goToCommits(repoName) });
+    this.goToCommitsSubs = this.tableService.goToCommits$.subscribe({ next: (repoName: string) => this.goToCommits(repoName) });
   }
 
   ngOnInit(): void {
@@ -38,10 +41,12 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
     }
     this.optionalParams = repoData.optionalData;
     this.tableService.totalData$.next(repoData.totalReports);
-    this.form.controls.repoName.setValue(repoData.reportName);
-    this.form.controls.language.setValue(repoData.language);
-    this.form.controls.minStars.setValue(repoData.minStars);
-    this.form.controls.issueName.setValue(repoData.issueName);
+    const controls = this.form.controls;
+    controls.repoName.setValue(repoData.reportName);
+    controls.language.setValue(repoData.language);
+    controls.minStars.setValue(repoData.minStars);
+    controls.issueName.setValue(repoData.issueName);
+    this.data = new GetReposData(controls.repoName.value || '', controls.language.value || '', controls.minStars.value || 0, controls.issueName.value || '', repoData.page);
   }
 
   unsetOptionals(): void {
@@ -62,7 +67,7 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
     this.repos = [];
     this.tableService.IsVisible$.next(false);
     const controls = this.form.controls;
-    this.data.setData(controls.repoName.value || '', controls.language.value || '', controls.minStars.value || 0, controls.issueName.value || '');
+    this.data = new GetReposData(controls.repoName.value || '', controls.language.value || '', controls.minStars.value || 0, controls.issueName.value || '');
     this._getRepos();
   }
 
@@ -98,5 +103,6 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
     if(this.storeService.getCleanable()) {
       this.storeService.cleanStore();
     }
+    this.goToCommitsSubs?.unsubscribe();
   }
 }

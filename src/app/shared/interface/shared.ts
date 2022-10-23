@@ -8,7 +8,7 @@ export interface StoreData {
 export abstract class GetData {
   page: number;
 
-  constructor() {
-    this.page = 1;
+  constructor(repoPage?: number) {
+    this.page = repoPage || 1;
   }
 }
