@@ -9,6 +9,7 @@ import { TableService } from 'src/app/shared/services/table.service';
 import { Commit } from './class/commits';
 import { GetCommitData, GetCommitResult } from './interface/commits';
 import { CommitsService } from './services/commits.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-commits',
@@ -52,7 +53,7 @@ export class CommitsComponent extends BaseTableComponent  implements OnInit {
         this.tableService.dataLength$.next(this.commits.length);
         this.tableService.IsVisible$.next(true);
       },
-      error: () => console.log('TODO ERROR'),
+      error: () => Swal.fire({ position: 'center', icon: 'error', title: `Get commit error`, timer: 2000 }),
       complete: () => this.spinnerService.hide()
     })
   }

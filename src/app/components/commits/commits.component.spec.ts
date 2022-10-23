@@ -20,4 +20,10 @@ describe('CommitsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should addCommits() add page', () => {
+    const prevPage = component.data.page;
+    component.addCommits();
+    expect(component.data.page === prevPage + 1).toBeTrue();
+  });
 });

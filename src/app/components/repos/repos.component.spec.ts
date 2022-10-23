@@ -20,4 +20,16 @@ describe('ReposComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should unset language and min stars', () => {
+    component.unsetOptionals();
+    const result = component.form.controls.language.value === '' && component.form.controls.minStars.value === 0;
+    expect(result).toBeTrue();
+  });
+
+  it('should addRepos() add page', () => {
+    const prevPage = component.data.page;
+    component.addRepos();
+    expect(component.data.page === prevPage + 1).toBeTrue();
+  });
 });

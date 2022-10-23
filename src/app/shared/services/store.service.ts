@@ -32,7 +32,7 @@ export class StoreService {
     })
   }
 
-  getStore<T extends StoreValue>(key: StoreKey): T {
+  getStoreItem<T extends StoreValue>(key: StoreKey): T {
     return this.store.get(key) as T;
   }
 
