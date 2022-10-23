@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { BaseTableComponent } from 'src/app/shared/components/base-table/base-table.component';
 import { StoreService, StoreKey } from 'src/app/shared/services/store.service';
 import { TableService } from 'src/app/shared/services/table.service';
+import Swal from 'sweetalert2';
 import { Repo } from './class/repos';
 import { GetReposData, RepoData, GetRepoResult } from './interface/repos';
 import { ReposService } from './services/repos.service';
@@ -33,8 +34,8 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
   }
 
   ngOnInit(): void {
-    this.repos = this.storeService.getStore<Repo[]>(StoreKey.repos) || [];
-    const repoData = this.storeService.getStore<RepoData>(StoreKey.repoData);
+    this.repos = this.storeService.getStoreItem<Repo[]>(StoreKey.repos) || [];
+    const repoData = this.storeService.getStoreItem<RepoData>(StoreKey.repoData);
     this.tableService.dataLength$.next(this.repos.length);
     if(!repoData) {
       return;
@@ -72,7 +73,6 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
   }
 
   private _getRepos(): void {
-    
     this.spinnerService.show();
     this.repoService.getRepos(this.data).subscribe({
       next: ([reposResult, issuesRepoUrl]: [GetRepoResult, string[]]) => {
@@ -88,7 +88,7 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
         const value: RepoData = { ...this.data, ...{ optionalData: this.optionalParams }, ...{ totalReports: this.tableService.totalData$.value }, ...{ page: this.data.page } };
         this.storeService.setStore([{ key: StoreKey.repos, value: this.repos },{ key: StoreKey.repoData, value }]);
       },
-      error: () => console.log('TODO ERROR'),
+      error: () => Swal.fire({ position: 'center', icon: 'error', title: `Get repos error`, timer: 2000 }),
       complete: () => this.spinnerService.hide()
     });
   }
