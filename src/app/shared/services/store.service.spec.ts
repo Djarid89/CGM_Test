@@ -30,7 +30,7 @@ describe('StoreService', () => {
   });
 
   it('store should be uncleanable', () => {
-    service.setUncleanable();
+    service.setCleanable();
     expect(service.getCleanable()).toBeFalse();
   });
 });

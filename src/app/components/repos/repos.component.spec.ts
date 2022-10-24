@@ -1,6 +1,10 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TableService } from '../../shared/services/table.service';
+import { GetReposData } from './interface/repos';
 
 import { ReposComponent } from './repos.component';
+import { ReposService } from './services/repos.service';
 
 describe('ReposComponent', () => {
   let component: ReposComponent;
@@ -8,7 +12,9 @@ describe('ReposComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReposComponent ]
+      declarations: [ ReposComponent ],
+      imports: [HttpClientModule],
+      providers: [ReposService, TableService]
     })
     .compileComponents();
 
@@ -28,6 +34,7 @@ describe('ReposComponent', () => {
   });
 
   it('should addRepos() add page', () => {
+    component.data = new GetReposData('', '', 0, '');
     const prevPage = component.data.page;
     component.addRepos();
     expect(component.data.page === prevPage + 1).toBeTrue();

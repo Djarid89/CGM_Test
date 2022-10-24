@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { BaseTableComponent } from 'src/app/shared/components/base-table/base-table.component';
 import { StoreService, StoreKey } from 'src/app/shared/services/store.service';
 import { TableService } from 'src/app/shared/services/table.service';
@@ -37,6 +37,7 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
     this.repos = this.storeService.getStoreItem<Repo[]>(StoreKey.repos) || [];
     const repoData = this.storeService.getStoreItem<RepoData>(StoreKey.repoData);
     this.tableService.dataLength$.next(this.repos.length);
+    this.tableService.IsVisible$.next(this.repos.length > 0);
     if(!repoData) {
       return;
     }
@@ -48,6 +49,7 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
     controls.minStars.setValue(repoData.minStars);
     controls.issueName.setValue(repoData.issueName);
     this.data = new GetReposData(controls.repoName.value || '', controls.language.value || '', controls.minStars.value || 0, controls.issueName.value || '', repoData.page);
+    this.storeService.setCleanable(true);
   }
 
   unsetOptionals(): void {
@@ -74,7 +76,7 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
 
   private _getRepos(): void {
     this.spinnerService.show();
-    this.repoService.getRepos(this.data).subscribe({
+    this.repoService.getRepos(this.data).pipe(finalize(() => this.spinnerService.hide())).subscribe({
       next: ([reposResult, issuesRepoUrl]: [GetRepoResult, string[]]) => {
         this.tableService.totalData$.next(reposResult.totalRepos);
         this.tableService.IsVisible$.next(true);
@@ -88,14 +90,13 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
         const value: RepoData = { ...this.data, ...{ optionalData: this.optionalParams }, ...{ totalReports: this.tableService.totalData$.value }, ...{ page: this.data.page } };
         this.storeService.setStore([{ key: StoreKey.repos, value: this.repos },{ key: StoreKey.repoData, value }]);
       },
-      error: () => Swal.fire({ position: 'center', icon: 'error', title: `Get repos error`, timer: 2000 }),
-      complete: () => this.spinnerService.hide()
+      error: () => Swal.fire({ position: 'center', icon: 'error', title: `Get repos error`, timer: 2000 })
     });
   }
 
   goToCommits(repoName: string): void {
     this.spinnerService.show();
-    this.storeService.setUncleanable();
+    this.storeService.setCleanable(false);
     this.router.navigate(['commits'], { queryParams: { repoName } });
   }
 
@@ -103,6 +104,7 @@ export class ReposComponent extends BaseTableComponent implements OnInit, OnDest
     if(this.storeService.getCleanable()) {
       this.storeService.cleanStore();
     }
+    this.tableService.IsVisible$.next(false);
     this.goToCommitsSubs?.unsubscribe();
   }
 }

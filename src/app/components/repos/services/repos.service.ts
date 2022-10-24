@@ -10,11 +10,13 @@ export class ReposService {
 
   constructor(private readonly http: HttpClient) { }
 
-  /**
-    * Get all repos and totalRepos.
-    * If issesName property is present return also a list of string (repository_url)
-    * property from the call getIssues that return all issues that have issesName in title property.
-    * This repository_url is meaning for filtering report that contain this string into his url property.
+  /*
+    * In my idea when get repos I want to filter them by issues that that way:
+    * - when the longer call return I map an array with the property 'repository_url' from the issues that comes from this.getIssues(repoData.issueName)
+    * - filter the repo returned from the call this._getRepos(repoData) matching 'repository_url' from issues and 'url' property of repo.
+    * I can't implement this solution because I must have all the issues in order doing this but issues comes from server at most with 100 pages at time.
+    * So for a single interrogation I can have tens of thousands of result so a very high number of call can be necessary but doing in this way I can quickly reach the rete limit of github
+    * For this motivation i disabled the issueName property in attendance of a better solution
   */
   getRepos(repoData: GetReposData): Observable<[GetRepoResult, string[]]> {
     return forkJoin([this._getRepos(repoData), this.getIssues(repoData.issueName)]);

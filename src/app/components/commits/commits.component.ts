@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { first } from 'rxjs';
+import { finalize, first } from 'rxjs';
 import { BaseTableComponent } from 'src/app/shared/components/base-table/base-table.component';
 import { StoreService } from 'src/app/shared/services/store.service';
 import { TableService } from 'src/app/shared/services/table.service';
@@ -46,15 +46,14 @@ export class CommitsComponent extends BaseTableComponent  implements OnInit {
   private getCommit(): void {
     this.tableService.IsVisible$.next(false);
     this.spinnerService.show();
-    this.commitService.getCommits(this.data as GetCommitData).subscribe({
+    this.commitService.getCommits(this.data).pipe(finalize(() => this.spinnerService.hide())).subscribe({
       next: (commitsResult: GetCommitResult) => {
         this.tableService.totalData$.next(commitsResult.totalCommits);
         this.commits = this.commits.concat(commitsResult.commits);
         this.tableService.dataLength$.next(this.commits.length);
         this.tableService.IsVisible$.next(true);
       },
-      error: () => Swal.fire({ position: 'center', icon: 'error', title: `Get commit error`, timer: 2000 }),
-      complete: () => this.spinnerService.hide()
+      error: () => Swal.fire({ position: 'center', icon: 'error', title: `Get commit error`, timer: 2000 })
     })
   }
 
