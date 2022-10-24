@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TableService } from '../../../../shared/services/table.service';
+import { ReposService } from '../../services/repos.service';
 
 import { TableReposComponent } from './table-repos.component';
 
@@ -8,7 +10,8 @@ describe('TableReposComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableReposComponent ]
+      declarations: [ TableReposComponent ],
+      providers: [ ReposService, TableService ]
     })
     .compileComponents();
 

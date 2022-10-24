@@ -14,7 +14,7 @@
     </div>
     <div class="a-repos-formRow">
       <label for="issueName">Issue title: </label>
-      <input id="issueName" type="text" formControlName="issueName">
+      <input id="issueName" type="text" formControlName="issueName" [attr.disabled]="true">
     </div>
     <div *ngIf="optionalParams" class="a-repos-formRow">
       <label for="minStars">Minimum stars: </label>

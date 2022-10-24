@@ -23,21 +23,15 @@ export class StoreService {
   navCommitisVisible$ = new BehaviorSubject<boolean>(false);
 
   setStore(storeData: StoreData[]): void {
-    storeData.forEach((data: StoreData) => {
-      if(this.store.has(data.key)) {
-        this.store.set(data.key, data.value);
-      } else {
-        this.store.set(data.key, data.value); 
-      }
-    })
+    storeData.forEach((data: StoreData) => this.store.set(data.key, data.value));
   }
 
   getStoreItem<T extends StoreValue>(key: StoreKey): T {
     return this.store.get(key) as T;
   }
 
-  setUncleanable(): void {
-    this.cleanable = false;
+  setCleanable(value: boolean): void {
+    this.cleanable = value;
   }
 
   getCleanable(): boolean {
